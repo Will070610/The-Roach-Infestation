@@ -208,9 +208,9 @@ GameObject:
   - component: {fileID: 1059887219}
   - component: {fileID: 1059887218}
   - component: {fileID: 1059887217}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Foreground
-  m_TagString: Foreground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7261,12 +7261,12 @@ PrefabInstance:
     - target: {fileID: 8671785865052473572, guid: bbb3cf455204a3043857c13c6769afb2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.297
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 8671785865052473572, guid: bbb3cf455204a3043857c13c6769afb2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.08
+      value: 2.84
       objectReference: {fileID: 0}
     - target: {fileID: 8671785865052473572, guid: bbb3cf455204a3043857c13c6769afb2,
         type: 3}
@@ -7318,6 +7318,11 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3215481683410980071, guid: bbb3cf455204a3043857c13c6769afb2,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbb3cf455204a3043857c13c6769afb2, type: 3}
 --- !u!1 &8671785865601954825 stripped
@@ -7339,3 +7344,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runSpeed: 10
+  jumpSpeed: 28
