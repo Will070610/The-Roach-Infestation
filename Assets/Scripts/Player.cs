@@ -93,11 +93,16 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        if(isAlive == false)
+        if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemy", "Hazards")))
         {
-            myAnimator.SetTrigger("Dying");
-            GetComponent<Rigidbody2D>().velocity = deathKick;
-        }     
+            isAlive = false;
+            myAnimator.SetTrigger("Dying");            
+        }
+        //if(isAlive == false)
+       // {
+        //    myAnimator.SetTrigger("Dying");
+        //    GetComponent<Rigidbody2D>().velocity = deathKick;
+        //}     
     }
 
     private void FlipSprite()
