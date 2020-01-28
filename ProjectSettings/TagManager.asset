@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Background
   - Foreground
+  - EnemyProjectile
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Background
   - Enemy
   - Interactables
-  - 
+  - Bullet
   - 
   - 
   - 
@@ -51,6 +52,9 @@ TagManager:
     locked: 0
   - name: Interactables
     uniqueID: 3166803965
+    locked: 0
+  - name: Bullet
+    uniqueID: 4204767165
     locked: 0
   - name: Enemy
     uniqueID: 893156015

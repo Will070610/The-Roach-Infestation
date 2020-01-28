@@ -82,14 +82,22 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Die()
+    void OnCollisionEnter2D(Collision2D other)
     {
-        if(myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemy")))
+        if (other.collider.tag == "EnemyProjectile")
         {
             isAlive = false;
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        if(isAlive == false)
+        {
             myAnimator.SetTrigger("Dying");
             GetComponent<Rigidbody2D>().velocity = deathKick;
-        }
+        }     
     }
 
     private void FlipSprite()
@@ -97,7 +105,17 @@ public class Player : MonoBehaviour
         bool playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon;
         if (playerHasHorizontalSpeed)
         {
-            transform.localScale = new Vector2(Mathf.Sign(myRigidBody.velocity.x), 1f);
+            if (myRigidBody.velocity.x < 0)
+            {
+                transform.localRotation = Quaternion.Euler(0, 180f, 0);
+            }
+            else if (myRigidBody.velocity.x > 0)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
         }
+
+        // Instantiate(bullet, firePoint, transform.rotation);
+        
     }
 }
