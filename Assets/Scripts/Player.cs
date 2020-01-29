@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpSpeed = 5f;
     [SerializeField] float climbSpeed = 5f;
     [SerializeField] Vector2 deathKick = new Vector2(25f, 25f);
+    public float speed;
+    public float jumpForce;
 
     bool isAlive = true;
 
