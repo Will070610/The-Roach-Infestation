@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour
@@ -9,8 +10,9 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpSpeed = 5f;
     [SerializeField] float climbSpeed = 5f;
     [SerializeField] Vector2 deathKick = new Vector2(25f, 25f);
-    public float speed;
-    public float jumpForce;
+    //public float speed;
+    //public float jumpForce;
+    //private float moveInput;
 
     bool isAlive = true;
 
@@ -18,16 +20,30 @@ public class Player : MonoBehaviour
     Animator myAnimator;
     CapsuleCollider2D myBodyCollider;
     BoxCollider2D myFeet;
+    private bool isGrounded;
+    public Transform groundCheck;
+    public LayerMask whatIsGround;
+    public float checkRadius;
     float gravityScaleAtStart;
 
+    private int extraJumps;
+    public int extraJumpsValue;
+
+    public int _playerHealth = 3;
+
+    public UIManager _uiManager;
+    public EnemyMovement EnemyMovement;
+    
     // Use this for intialization
     void Start()
     {
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         myRigidBody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         myBodyCollider = GetComponent<CapsuleCollider2D>();
         myFeet = GetComponent<BoxCollider2D>();
         gravityScaleAtStart = myRigidBody.gravityScale;
+        extraJumps = extraJumpsValue;
     }
 
     // Update is called once per frame
@@ -40,6 +56,11 @@ public class Player : MonoBehaviour
         Jump();
         FlipSprite();
         Die();
+    }
+
+    void FixedUpdate()
+    {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
     }
 
     private void Run()
@@ -75,27 +96,62 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        if(!myFeet.IsTouchingLayers(LayerMask.GetMask("Ground"))) { return; }
-        
-        if (CrossPlatformInputManager.GetButtonDown("Jump"))
+
+        if(isGrounded == true)
         {
-            Vector2 jumpVelocityToAdd = new Vector2(0f, jumpSpeed);
-            myRigidBody.velocity += jumpVelocityToAdd;
+            extraJumps = extraJumpsValue;
         }
+
+        if (Input.GetKeyDown(KeyCode.Space) && extraJumps > 0)
+        {
+            myRigidBody.velocity = Vector2.up * jumpSpeed;
+            extraJumps--;
+        }else if(Input.GetKeyDown(KeyCode.Space) && extraJumps == 0 && isGrounded == true)
+        {
+            myRigidBody.velocity = Vector2.up * jumpSpeed;
+        }
+
+        //    Vector2 jumpVelocityToAdd = new Vector2(0f, jumpSpeed);
+        //  myRigidBody.velocity += jumpVelocityToAdd;
+        // }
+        // if(!myFeet.IsTouchingLayers(LayerMask.GetMask("Ground"))) { return; }
     }
 
     void OnCollisionEnter2D(Collision2D other)
     {
         if (other.collider.tag == "EnemyProjectile")
         {
-            isAlive = false;
+            DecreaseHealth();
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "EnemyColliders")
+        {
+            EnemyMovement.EnemyLook();
+        }
+    }
+
+    public void AddHealth()
+    {
+        _playerHealth += 1;
+        _uiManager.HealthUpdate(_playerHealth);
+    }
+
+    public void DecreaseHealth()
+    {
+        _playerHealth -= 1;
+        _uiManager.HealthUpdate(_playerHealth);
+        if (_playerHealth <= 0)
+        {
             Die();
         }
     }
 
     private void Die()
     {
-        if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemy", "Hazards")))
+        if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Hazards")))
         {
             isAlive = false;
             myAnimator.SetTrigger("Dying");            
@@ -125,4 +181,5 @@ public class Player : MonoBehaviour
         // Instantiate(bullet, firePoint, transform.rotation);
         
     }
+
 }
