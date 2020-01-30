@@ -4,26 +4,54 @@ using UnityEngine;
 
 public class EnemyShooting : MonoBehaviour
 {
-    private float bulletspeed = 9f;
+    private float bulletspeed = 5f;
 
-    public EnemyMovement EnemyMovement;
+    private Player _player;
 
+    private EnemyMovement EnemyMovement;
 
+    private Rigidbody2D _rb;
+
+    public GameObject Foreground;
     // Start is called before the first frame update
     void Start()
     {
-        EnemyMovement = GameObject.Find("EnemyMovement").GetComponent<EnemyMovement>();
+        _player = GameObject.FindObjectOfType<Player>();
+        _rb = GetComponent<Rigidbody2D>();
+
+        //Vector3 distanceToPlayer = _player.transform.position - transform.position;
+        //_rb.velocity = distanceToPlayer.normalized * bulletspeed;
+        
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //player is looking right enemy shoots right
-
-      
-           // transform.Translate(Vector2.horizontal * bulletspeed * Time.deltaTime);
-
+        if(EnemyMovement.direction > 0)
+        {
+            float VerticalInput = Input.GetAxis("Horizontal");
+            transform.Translate(Vector2.right * bulletspeed * Time.deltaTime);
+        }
+        else
+        {
+            float VerticalInput = Input.GetAxis("Horizontal");
+            transform.Translate(Vector2.left * bulletspeed * Time.deltaTime);
+        }
+        
+        StartCoroutine(DestroyBullet());
     }
 
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.collider.tag == "Ground")
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    IEnumerator DestroyBullet()
+    {
+        yield return new WaitForSeconds(1);
+        Destroy(this.gameObject);
+    }
 
 }

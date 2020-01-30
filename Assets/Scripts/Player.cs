@@ -145,6 +145,7 @@ public class Player : MonoBehaviour
         _uiManager.HealthUpdate(_playerHealth);
         if (_playerHealth <= 0)
         {
+            isAlive = false;
             Die();
         }
     }
@@ -153,14 +154,15 @@ public class Player : MonoBehaviour
     {
         if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Hazards")))
         {
+            _playerHealth -= 3;
+            _uiManager.HealthUpdate(_playerHealth);
             isAlive = false;
-            myAnimator.SetTrigger("Dying");            
         }
-        //if(isAlive == false)
-       // {
-        //    myAnimator.SetTrigger("Dying");
+        if(isAlive == false)
+        {             
+             myAnimator.SetTrigger("Dying");
         //    GetComponent<Rigidbody2D>().velocity = deathKick;
-        //}     
+        }     
     }
 
     private void FlipSprite()

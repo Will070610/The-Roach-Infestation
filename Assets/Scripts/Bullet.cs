@@ -25,5 +25,24 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void Update()
+    {
+        StartCoroutine(DestroyBullet());
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.collider.tag == "Ground")
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    IEnumerator DestroyBullet()
+    {
+        yield return new WaitForSeconds(1);
+        Destroy(this.gameObject);
+    }
 }
+
 

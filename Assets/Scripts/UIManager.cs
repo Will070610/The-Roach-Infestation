@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour
     {
 
         Health.sprite = HealthSprites[_playerHealth];
+
     }
 
 }
