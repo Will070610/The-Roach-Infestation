@@ -9,9 +9,12 @@ EditorBuildSettings:
     path: Assets/levels/Main Menu.unity
     guid: 04d07c6d5d7c6064ea46373e760a3025
   - enabled: 1
-    path: Assets/levels/Level 1.unity
+    path: Assets/levels/Game.unity
     guid: 33c1ebb17902eea4b8c7e63a059fe734
   - enabled: 1
-    path: Assets/levels/Level Complete.unity
+    path: Assets/levels/Level Progress#.unity
     guid: 66a3948b1db47074d82a2a7e6a8dd627
+  - enabled: 1
+    path: Assets/levels/GameOver.unity
+    guid: f7fa6310a29350e4ea39db8f4b425eec
   m_configObjects: {}
